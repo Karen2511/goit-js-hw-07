@@ -26,18 +26,29 @@ const images = [
 ];
 
 const gallery = document.querySelector('.gallery');
+if (!gallery) {
+  console.error('Gallery container not found: .gallery');
+} else {
+  gallery.setAttribute('role', 'list');
+  gallery.setAttribute('aria-label', 'Gallery of images');
 
-const items = images.map(({ url, alt }) => {
-  const li = document.createElement('li');
-  li.classList.add('gallery-item');
+  const items = images.map(({ url, alt }) => {
+    const li = document.createElement('li');
+    li.classList.add('gallery-item');
 
-  const img = document.createElement('img');
-  img.src = url;
-  img.alt = alt;
-  img.width = 300;
+    const img = document.createElement('img');
+    img.classList.add('gallery-img');
+    img.src = url;
+    img.alt = alt;
+    img.loading = 'lazy';
 
-  li.append(img);
-  return li;
-});
+    const caption = document.createElement('span');
+    caption.classList.add('gallery-caption');
+    caption.textContent = alt;
 
-gallery.append(...items);
+    li.append(img, caption);
+    return li;
+  });
+
+  gallery.append(...items);
+}
